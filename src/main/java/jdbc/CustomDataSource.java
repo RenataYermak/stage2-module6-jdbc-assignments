@@ -17,7 +17,6 @@ import java.util.logging.Logger;
 @Setter
 public class CustomDataSource implements DataSource {
 
-    private static final Properties properties = new Properties();
     private static volatile CustomDataSource instance;
     private final String driver;
     private final String url;
@@ -34,6 +33,7 @@ public class CustomDataSource implements DataSource {
     public static CustomDataSource getInstance() {
         if (instance == null) {
             try {
+                Properties properties = new Properties();
                 properties.load(new FileReader("app.properties"));
                 instance = new CustomDataSource(
                         properties.getProperty("postgres.driver"),

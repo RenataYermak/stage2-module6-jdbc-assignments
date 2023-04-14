@@ -20,7 +20,7 @@ import java.util.List;
 @NoArgsConstructor
 public class SimpleJDBCRepository {
 
-    private final CustomDataSource dataSource = CustomDataSource.getInstance();
+    private  CustomDataSource dataSource = CustomDataSource.getInstance();
 
     private Connection connection = null;
     private PreparedStatement ps = null;
@@ -77,7 +77,6 @@ public class SimpleJDBCRepository {
             var resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 user = new User(resultSet.getLong(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4));
-                ;
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -121,7 +120,7 @@ public class SimpleJDBCRepository {
 
     private void deleteUser(Long userId) {
         try{
-            connection = CustomDataSource.getInstance().getConnection();
+            connection = dataSource.getConnection();
             ps = connection.prepareStatement(deleteUser);
             ps.setLong(1,userId);
             ps.executeUpdate();
